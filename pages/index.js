@@ -115,8 +115,11 @@ export default function RevfineryAssessment() {
   const [track, setTrack] = useState(null);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [view, setView] = useState('select');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const sections = track === 'company' ? companySections : individualSections;
   const blockerRecs = track === 'company' ? companyBlockerRecs : individualBlockerRecs;
@@ -134,6 +137,55 @@ export default function RevfineryAssessment() {
     return { scores, overall, lowest };
   };
 
+  const submitToHubSpot = async () => {
+    setIsSubmitting(true);
+    const { overall, lowest } = calcResults();
+    const tierLabel = overall >= 75 ? 'High' : overall >= 50 ? 'Mid' : 'Low';
+    
+    const portalId = '244430724';
+    const formGuid = '426f2679-fef4-4fe5-9729-6b407d31104f';
+    
+    const data = {
+      fields: [
+        { name: 'firstname', value: firstName },
+        { name: 'lastname', value: lastName },
+        { name: 'email', value: email }
+      ],
+      context: {
+        pageUri: window.location.href,
+        pageName: `Revfinery Assessment - ${track === 'company' ? 'Company' : 'Individual'} Track`
+      },
+      legalConsentOptions: {
+        consent: {
+          consentToProcess: true,
+          text: "I agree to receive communications from Revfinery."
+        }
+      }
+    };
+
+    try {
+      const response = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formGuid}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      
+      if (response.ok) {
+        console.log('Successfully submitted to HubSpot');
+        console.log(`Track: ${track}, Score: ${overall}%, Tier: ${tierLabel}, Blocker: ${lowest.title}`);
+      } else {
+        console.log('HubSpot submission failed, but showing results anyway');
+      }
+    } catch (error) {
+      console.log('HubSpot submission error, but showing results anyway');
+    }
+    
+    setIsSubmitting(false);
+    setView('results');
+  };
+
   const companyTiers = {
     low: { icon: AlertTriangle, iconColor: '#f25025', headline: "You're leaving serious revenue on the table.", subhead: "The gaps in your system are costing you deals. But they're fixable.", ctaText: "Book Your Diagnostic", ctaSubtext: "Let's find the fastest path — likely process fixes and leadership support.", urgency: "Most teams see improvement within 30-60 days." },
     mid: { icon: Target, iconColor: '#ffd166', headline: "You have real gaps — but they're fixable.", subhead: "Your system is working, but leaking. The Diagnostic builds your 30-90 day plan.", ctaText: "Book Your Diagnostic", ctaSubtext: "We'll map the right mix of training, process, or support.", urgency: "Teams at this stage need a focused 90-day push." },
@@ -147,6 +199,8 @@ export default function RevfineryAssessment() {
   };
 
   const getTier = (score) => score >= 75 ? 'high' : score >= 50 ? 'mid' : 'low';
+
+  const isFormValid = firstName.trim() && lastName.trim() && email.includes('@');
 
   if (view === 'select') {
     return (
@@ -272,11 +326,37 @@ export default function RevfineryAssessment() {
             </div>
             <div style={{marginTop: '32px', marginBottom: '24px', textAlign: 'center'}}>
               <h2 style={{fontSize: '24px', fontWeight: 'bold', marginBottom: '8px', color: '#0e2a2d'}}>Assessment Complete! 🎉</h2>
-              <p style={{color: '#4c5f62'}}>Enter your email to see your personalized results.</p>
+              <p style={{color: '#4c5f62'}}>Enter your info to see your personalized results.</p>
             </div>
-            <input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} style={{width: '100%', padding: '16px 20px', fontSize: '18px', marginBottom: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}/>
-            <button onClick={() => setView('results')} disabled={!email.includes('@')} style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: !email.includes('@') ? 0.5 : 1}}>
-              View My Results →
+            <div style={{display: 'flex', gap: '12px', marginBottom: '12px'}}>
+              <input 
+                type="text" 
+                placeholder="First name" 
+                value={firstName} 
+                onChange={(e) => setFirstName(e.target.value)} 
+                style={{flex: 1, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
+              />
+              <input 
+                type="text" 
+                placeholder="Last name" 
+                value={lastName} 
+                onChange={(e) => setLastName(e.target.value)} 
+                style={{flex: 1, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
+              />
+            </div>
+            <input 
+              type="email" 
+              placeholder="your@email.com" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              style={{width: '100%', padding: '14px 16px', fontSize: '16px', marginBottom: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
+            />
+            <button 
+              onClick={submitToHubSpot} 
+              disabled={!isFormValid || isSubmitting} 
+              style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: (!isFormValid || isSubmitting) ? 0.5 : 1}}
+            >
+              {isSubmitting ? 'Loading...' : 'View My Results →'}
             </button>
             <p style={{fontSize: '12px', textAlign: 'center', marginTop: '16px', color: '#4c5f62'}}>We'll send a copy and occasional insights. No spam.</p>
           </div>
