@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, CheckCircle, AlertTriangle, TrendingUp, Target, Building2, User } from 'lucide-react';
 
 const companySections = [
@@ -123,6 +123,11 @@ export default function RevfineryAssessment() {
 
   const sections = track === 'company' ? companySections : individualSections;
   const blockerRecs = track === 'company' ? companyBlockerRecs : individualBlockerRecs;
+
+  // Scroll to top when step or view changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [step, view]);
 
   const getColor = (s) => s >= 75 ? '#0c6b73' : s >= 50 ? '#ffd166' : '#f25025';
 
@@ -320,7 +325,7 @@ export default function RevfineryAssessment() {
       <>
         <Header />
         <div style={{minHeight: '100vh', paddingTop: '80px', padding: '80px 16px 16px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #fbf6f1 0%, #fff7e8 50%, #eaf6f7 100%)'}}>
-          <div style={{maxWidth: '448px', width: '100%', padding: '32px', backgroundColor: 'white', borderRadius: '18px', border: '3px solid #ffd166', boxShadow: '0 18px 40px rgba(0,0,0,0.14)', position: 'relative'}}>
+          <div style={{maxWidth: '448px', width: '100%', padding: '32px', backgroundColor: 'white', borderRadius: '18px', border: '3px solid #ffd166', boxShadow: '0 18px 40px rgba(0,0,0,0.14)', position: 'relative', boxSizing: 'border-box'}}>
             <div style={{position: 'absolute', top: '-24px', left: '50%', transform: 'translateX(-50%)', width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: '#0c6b73'}}>
               <CheckCircle style={{width: '28px', height: '28px', color: 'white'}}/>
             </div>
@@ -334,14 +339,14 @@ export default function RevfineryAssessment() {
                 placeholder="First name" 
                 value={firstName} 
                 onChange={(e) => setFirstName(e.target.value)} 
-                style={{flex: 1, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
+                style={{flex: '1 1 0%', minWidth: 0, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
               />
               <input 
                 type="text" 
                 placeholder="Last name" 
                 value={lastName} 
                 onChange={(e) => setLastName(e.target.value)} 
-                style={{flex: 1, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
+                style={{flex: '1 1 0%', minWidth: 0, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
               />
             </div>
             <input 
@@ -354,7 +359,7 @@ export default function RevfineryAssessment() {
             <button 
               onClick={submitToHubSpot} 
               disabled={!isFormValid || isSubmitting} 
-              style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: (!isFormValid || isSubmitting) ? 0.5 : 1}}
+              style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: (!isFormValid || isSubmitting) ? 0.5 : 1, boxSizing: 'border-box'}}
             >
               {isSubmitting ? 'Loading...' : 'View My Results →'}
             </button>
