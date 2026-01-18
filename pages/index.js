@@ -1,4 +1,3 @@
-```javascript
 import React, { useState } from 'react';
 import { ArrowRight, ArrowLeft, CheckCircle, AlertTriangle, TrendingUp, Target, Building2, User } from 'lucide-react';
 
@@ -327,4 +326,4 @@ export default function RevfineryAssessment() {
     </div>
   );
 }
-```
+
