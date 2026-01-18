@@ -101,6 +101,16 @@ const individualBlockerRecs = {
   growth: { area: "Growth & Coachability", insight: "You're not investing in yourself. The best sellers are always learning.", path: "coaching, community, and continuous development" }
 };
 
+const Header = () => (
+  <div style={{position: 'fixed', top: 0, left: 0, right: 0, padding: '16px 24px', backgroundColor: 'white', borderBottom: '1px solid rgba(0,0,0,0.08)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+    <a href="https://www.revfinery.com" style={{display: 'flex', alignItems: 'center', fontWeight: '600', fontSize: '15px', color: '#4c5f62', textDecoration: 'none'}}>
+      <svg style={{width: '18px', height: '18px', marginRight: '8px'}} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to Revfinery
+    </a>
+    <span style={{fontWeight: 'bold', fontSize: '18px', color: '#0c6b73'}}>Revfinery</span>
+  </div>
+);
+
 export default function RevfineryAssessment() {
   const [track, setTrack] = useState(null);
   const [step, setStep] = useState(0);
@@ -131,42 +141,45 @@ export default function RevfineryAssessment() {
   };
 
   const individualTiers = {
-    low: { icon: AlertTriangle, iconColor: '#f25025', headline: "You've got work to do — and that's okay.", subhead: "Every great seller started somewhere. The fundamentals will change your trajectory.", ctaText: "Join the Revfinery Network", ctaSubtext: "Get the Fundamentals Playbook and start building your foundation.", cta2Text: "Get the Playbooks", cta2Link: "/playbooks", urgency: "Most reps at this stage see improvement within 30 days of focused work." },
-    mid: { icon: Target, iconColor: '#ffd166', headline: "You're solid — but there's another level.", subhead: "You have skills. Now it's about sharpening the edges and filling gaps.", ctaText: "Join the Revfinery Network", ctaSubtext: "Access coursework and community to level up your game.", cta2Text: "Explore Coursework", cta2Link: "/training", urgency: "Focused skill work at this stage compounds fast." },
-    high: { icon: TrendingUp, iconColor: '#0c6b73', headline: "You're a top performer.", subhead: "Rare skills. Have you considered helping others build theirs?", ctaText: "Join the Revfinery Network", ctaSubtext: "Connect with other top performers and explore the Revfinery Bench.", cta2Text: "Apply for the Bench", cta2Link: "/contact", urgency: "Top performers in our network consult on real client engagements." }
+    low: { icon: AlertTriangle, iconColor: '#f25025', headline: "You've got work to do — and that's okay.", subhead: "Every great seller started somewhere. The fundamentals will change your trajectory.", ctaText: "Join the Revfinery Network", ctaSubtext: "Get the Fundamentals Playbook and start building your foundation.", cta2Text: "Get the Playbooks", cta2Link: "https://www.revfinery.com/playbooks", urgency: "Most reps at this stage see improvement within 30 days of focused work." },
+    mid: { icon: Target, iconColor: '#ffd166', headline: "You're solid — but there's another level.", subhead: "You have skills. Now it's about sharpening the edges and filling gaps.", ctaText: "Join the Revfinery Network", ctaSubtext: "Access coursework and community to level up your game.", cta2Text: "Explore Coursework", cta2Link: "https://www.revfinery.com/training", urgency: "Focused skill work at this stage compounds fast." },
+    high: { icon: TrendingUp, iconColor: '#0c6b73', headline: "You're a top performer.", subhead: "Rare skills. Have you considered helping others build theirs?", ctaText: "Join the Revfinery Network", ctaSubtext: "Connect with other top performers and explore the Revfinery Bench.", cta2Text: "Apply for the Bench", cta2Link: "https://www.revfinery.com/contact", urgency: "Top performers in our network consult on real client engagements." }
   };
 
   const getTier = (score) => score >= 75 ? 'high' : score >= 50 ? 'mid' : 'low';
 
   if (view === 'select') {
     return (
-      <div style={{minHeight: '100vh', padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #fbf6f1 0%, #fff7e8 50%, #eaf6f7 100%)'}}>
-        <div style={{maxWidth: '672px', width: '100%'}}>
-          <div style={{textAlign: 'center', marginBottom: '40px'}}>
-            <span style={{display: 'inline-block', padding: '8px 16px', marginBottom: '16px', fontWeight: 'bold', fontSize: '14px', backgroundColor: '#ffd166', color: '#0e2a2d', borderRadius: '12px'}}>⚡ FREE ASSESSMENT</span>
-            <h1 style={{fontSize: '32px', fontWeight: 'bold', marginBottom: '12px', color: '#0e2a2d'}}>What do you want to assess?</h1>
-            <p style={{fontSize: '18px', color: '#4c5f62'}}>Choose your path. Get personalized insights.</p>
-          </div>
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px'}}>
-            <button onClick={() => { setTrack('company'); setView('quiz'); }} style={{padding: '32px', backgroundColor: 'white', textAlign: 'left', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: '3px solid transparent', cursor: 'pointer', transition: 'all 0.2s'}}
-              onMouseOver={e => {e.currentTarget.style.borderColor = '#0c6b73'; e.currentTarget.style.transform = 'scale(1.02)';}} 
-              onMouseOut={e => {e.currentTarget.style.borderColor = 'transparent'; e.currentTarget.style.transform = 'scale(1)';}}>
-              <Building2 style={{width: '48px', height: '48px', marginBottom: '16px', color: '#0c6b73'}}/>
-              <h2 style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#0e2a2d'}}>My Company's Revenue System</h2>
-              <p style={{marginBottom: '16px', color: '#4c5f62'}}>For founders, VPs, and revenue leaders. Diagnose what's blocking growth.</p>
-              <span style={{display: 'inline-flex', alignItems: 'center', fontWeight: '600', color: '#0c6b73'}}>Start Assessment <ArrowRight style={{marginLeft: '8px', width: '16px', height: '16px'}}/></span>
-            </button>
-            <button onClick={() => { setTrack('individual'); setView('quiz'); }} style={{padding: '32px', backgroundColor: 'white', textAlign: 'left', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: '3px solid transparent', cursor: 'pointer', transition: 'all 0.2s'}}
-              onMouseOver={e => {e.currentTarget.style.borderColor = '#f25025'; e.currentTarget.style.transform = 'scale(1.02)';}} 
-              onMouseOut={e => {e.currentTarget.style.borderColor = 'transparent'; e.currentTarget.style.transform = 'scale(1)';}}>
-              <User style={{width: '48px', height: '48px', marginBottom: '16px', color: '#f25025'}}/>
-              <h2 style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#0e2a2d'}}>My Own Sales Skills</h2>
-              <p style={{marginBottom: '16px', color: '#4c5f62'}}>For reps and managers. Find your gaps and level up.</p>
-              <span style={{display: 'inline-flex', alignItems: 'center', fontWeight: '600', color: '#f25025'}}>Start Assessment <ArrowRight style={{marginLeft: '8px', width: '16px', height: '16px'}}/></span>
-            </button>
+      <>
+        <Header />
+        <div style={{minHeight: '100vh', paddingTop: '80px', padding: '80px 16px 16px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #fbf6f1 0%, #fff7e8 50%, #eaf6f7 100%)'}}>
+          <div style={{maxWidth: '672px', width: '100%'}}>
+            <div style={{textAlign: 'center', marginBottom: '40px'}}>
+              <span style={{display: 'inline-block', padding: '8px 16px', marginBottom: '16px', fontWeight: 'bold', fontSize: '14px', backgroundColor: '#ffd166', color: '#0e2a2d', borderRadius: '12px'}}>⚡ FREE ASSESSMENT</span>
+              <h1 style={{fontSize: '32px', fontWeight: 'bold', marginBottom: '12px', color: '#0e2a2d'}}>What do you want to assess?</h1>
+              <p style={{fontSize: '18px', color: '#4c5f62'}}>Choose your path. Get personalized insights.</p>
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px'}}>
+              <button onClick={() => { setTrack('company'); setView('quiz'); }} style={{padding: '32px', backgroundColor: 'white', textAlign: 'left', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: '3px solid transparent', cursor: 'pointer', transition: 'all 0.2s'}}
+                onMouseOver={e => {e.currentTarget.style.borderColor = '#0c6b73'; e.currentTarget.style.transform = 'scale(1.02)';}} 
+                onMouseOut={e => {e.currentTarget.style.borderColor = 'transparent'; e.currentTarget.style.transform = 'scale(1)';}}>
+                <Building2 style={{width: '48px', height: '48px', marginBottom: '16px', color: '#0c6b73'}}/>
+                <h2 style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#0e2a2d'}}>My Company's Revenue System</h2>
+                <p style={{marginBottom: '16px', color: '#4c5f62'}}>For founders, VPs, and revenue leaders. Diagnose what's blocking growth.</p>
+                <span style={{display: 'inline-flex', alignItems: 'center', fontWeight: '600', color: '#0c6b73'}}>Start Assessment <ArrowRight style={{marginLeft: '8px', width: '16px', height: '16px'}}/></span>
+              </button>
+              <button onClick={() => { setTrack('individual'); setView('quiz'); }} style={{padding: '32px', backgroundColor: 'white', textAlign: 'left', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: '3px solid transparent', cursor: 'pointer', transition: 'all 0.2s'}}
+                onMouseOver={e => {e.currentTarget.style.borderColor = '#f25025'; e.currentTarget.style.transform = 'scale(1.02)';}} 
+                onMouseOut={e => {e.currentTarget.style.borderColor = 'transparent'; e.currentTarget.style.transform = 'scale(1)';}}>
+                <User style={{width: '48px', height: '48px', marginBottom: '16px', color: '#f25025'}}/>
+                <h2 style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#0e2a2d'}}>My Own Sales Skills</h2>
+                <p style={{marginBottom: '16px', color: '#4c5f62'}}>For reps and managers. Find your gaps and level up.</p>
+                <span style={{display: 'inline-flex', alignItems: 'center', fontWeight: '600', color: '#f25025'}}>Start Assessment <ArrowRight style={{marginLeft: '8px', width: '16px', height: '16px'}}/></span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -179,90 +192,96 @@ export default function RevfineryAssessment() {
     const TierIcon = content.icon;
 
     return (
-      <div style={{minHeight: '100vh', padding: '32px 16px', background: 'linear-gradient(135deg, #fbf6f1 0%, #fff7e8 50%, #eaf6f7 100%)'}}>
-        <div style={{maxWidth: '896px', margin: '0 auto'}}>
-          <div style={{textAlign: 'center', marginBottom: '40px'}}>
-            <p style={{fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#4c5f62'}}>{track === 'company' ? '🏢 COMPANY ASSESSMENT' : '👤 INDIVIDUAL ASSESSMENT'}</p>
-            <h1 style={{fontSize: '28px', fontWeight: 'bold', marginBottom: '16px', color: '#0e2a2d'}}>Your {track === 'company' ? 'Revenue Health' : 'Sales Skills'} Score</h1>
-            <div style={{position: 'relative', display: 'inline-block'}}>
-              <div style={{fontSize: '96px', fontWeight: '900', color: getColor(overall)}}>{overall}%</div>
-              <TierIcon style={{position: 'absolute', top: '-8px', right: '-24px', width: '40px', height: '40px', color: content.iconColor}}/>
-            </div>
-          </div>
-
-          <div style={{padding: '32px', marginBottom: '32px', textAlign: 'center', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', borderTop: `4px solid ${content.iconColor}`}}>
-            <h2 style={{fontSize: '28px', fontWeight: 'bold', marginBottom: '12px', color: '#0e2a2d'}}>{content.headline}</h2>
-            <p style={{fontSize: '18px', color: '#4c5f62'}}>{content.subhead}</p>
-          </div>
-
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '32px'}}>
-            {scores.map(s => (
-              <div key={s.id} style={{padding: '20px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: `3px solid ${getColor(s.score)}`}}>
-                <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '12px'}}>
-                  <span style={{fontWeight: '600', color: '#0e2a2d'}}>{s.title}</span>
-                  <span style={{fontSize: '24px', fontWeight: '900', color: getColor(s.score)}}>{s.score}%</span>
-                </div>
-                <div style={{height: '12px', backgroundColor: '#eaf6f7', borderRadius: '12px', overflow: 'hidden'}}>
-                  <div style={{height: '12px', width: `${s.score}%`, backgroundColor: getColor(s.score), borderRadius: '12px'}}/>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{padding: '32px', marginBottom: '32px', backgroundColor: 'white', borderRadius: '18px', border: '4px solid #f25025', boxShadow: '0 18px 40px rgba(0,0,0,0.14)'}}>
-            <div style={{display: 'flex', alignItems: 'flex-start', gap: '16px'}}>
-              <AlertTriangle style={{width: '40px', height: '40px', flexShrink: 0, color: '#f25025'}}/>
-              <div>
-                <h3 style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#0e2a2d'}}>🎯 Your #1 Gap: {blocker.area}</h3>
-                <p style={{fontSize: '18px', marginBottom: '16px', color: '#4c5f62'}}>{blocker.insight}</p>
-                <div style={{padding: '16px', backgroundColor: '#fff7e8', borderRadius: '12px'}}>
-                  <p style={{fontWeight: '600', color: '#0e2a2d'}}>Recommended path: <span style={{color: '#f25025'}}>{blocker.path}</span></p>
-                </div>
+      <>
+        <Header />
+        <div style={{minHeight: '100vh', paddingTop: '80px', padding: '80px 16px 32px 16px', background: 'linear-gradient(135deg, #fbf6f1 0%, #fff7e8 50%, #eaf6f7 100%)'}}>
+          <div style={{maxWidth: '896px', margin: '0 auto'}}>
+            <div style={{textAlign: 'center', marginBottom: '40px'}}>
+              <p style={{fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#4c5f62'}}>{track === 'company' ? '🏢 COMPANY ASSESSMENT' : '👤 INDIVIDUAL ASSESSMENT'}</p>
+              <h1 style={{fontSize: '28px', fontWeight: 'bold', marginBottom: '16px', color: '#0e2a2d'}}>Your {track === 'company' ? 'Revenue Health' : 'Sales Skills'} Score</h1>
+              <div style={{position: 'relative', display: 'inline-block'}}>
+                <div style={{fontSize: '96px', fontWeight: '900', color: getColor(overall)}}>{overall}%</div>
+                <TierIcon style={{position: 'absolute', top: '-8px', right: '-24px', width: '40px', height: '40px', color: content.iconColor}}/>
               </div>
             </div>
-          </div>
 
-          <div style={{padding: '32px', textAlign: 'center', background: 'linear-gradient(135deg, #0c6b73, #0a5a61)', borderRadius: '18px', boxShadow: '0 18px 40px rgba(12,107,115,0.3)'}}>
-            <h3 style={{fontSize: '28px', fontWeight: 'bold', color: 'white', marginBottom: '12px'}}>{content.ctaText}</h3>
-            <p style={{fontSize: '18px', color: 'rgba(255,255,255,0.9)', marginBottom: '8px'}}>{content.ctaSubtext}</p>
-            <p style={{fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '24px'}}>{content.urgency}</p>
-            <div style={{display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center'}}>
-              <a href={track === 'company' ? '/diagnostic' : '/contact'} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
-                {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
-              </a>
-              {track === 'individual' && content.cta2Text && (
-                <a href={content.cta2Link} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: '#0e2a2d', backgroundColor: 'white', borderRadius: '12px', textDecoration: 'none'}}>
-                  {content.cta2Text} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
+            <div style={{padding: '32px', marginBottom: '32px', textAlign: 'center', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', borderTop: `4px solid ${content.iconColor}`}}>
+              <h2 style={{fontSize: '28px', fontWeight: 'bold', marginBottom: '12px', color: '#0e2a2d'}}>{content.headline}</h2>
+              <p style={{fontSize: '18px', color: '#4c5f62'}}>{content.subhead}</p>
+            </div>
+
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '32px'}}>
+              {scores.map(s => (
+                <div key={s.id} style={{padding: '20px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: `3px solid ${getColor(s.score)}`}}>
+                  <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '12px'}}>
+                    <span style={{fontWeight: '600', color: '#0e2a2d'}}>{s.title}</span>
+                    <span style={{fontSize: '24px', fontWeight: '900', color: getColor(s.score)}}>{s.score}%</span>
+                  </div>
+                  <div style={{height: '12px', backgroundColor: '#eaf6f7', borderRadius: '12px', overflow: 'hidden'}}>
+                    <div style={{height: '12px', width: `${s.score}%`, backgroundColor: getColor(s.score), borderRadius: '12px'}}/>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{padding: '32px', marginBottom: '32px', backgroundColor: 'white', borderRadius: '18px', border: '4px solid #f25025', boxShadow: '0 18px 40px rgba(0,0,0,0.14)'}}>
+              <div style={{display: 'flex', alignItems: 'flex-start', gap: '16px'}}>
+                <AlertTriangle style={{width: '40px', height: '40px', flexShrink: 0, color: '#f25025'}}/>
+                <div>
+                  <h3 style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '8px', color: '#0e2a2d'}}>🎯 Your #1 Gap: {blocker.area}</h3>
+                  <p style={{fontSize: '18px', marginBottom: '16px', color: '#4c5f62'}}>{blocker.insight}</p>
+                  <div style={{padding: '16px', backgroundColor: '#fff7e8', borderRadius: '12px'}}>
+                    <p style={{fontWeight: '600', color: '#0e2a2d'}}>Recommended path: <span style={{color: '#f25025'}}>{blocker.path}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{padding: '32px', textAlign: 'center', background: 'linear-gradient(135deg, #0c6b73, #0a5a61)', borderRadius: '18px', boxShadow: '0 18px 40px rgba(12,107,115,0.3)'}}>
+              <h3 style={{fontSize: '28px', fontWeight: 'bold', color: 'white', marginBottom: '12px'}}>{content.ctaText}</h3>
+              <p style={{fontSize: '18px', color: 'rgba(255,255,255,0.9)', marginBottom: '8px'}}>{content.ctaSubtext}</p>
+              <p style={{fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '24px'}}>{content.urgency}</p>
+              <div style={{display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center'}}>
+                <a href={track === 'company' ? 'https://www.revfinery.com/diagnostic' : 'https://www.revfinery.com/contact'} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
+                  {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
                 </a>
-              )}
+                {track === 'individual' && content.cta2Text && (
+                  <a href={content.cta2Link} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: '#0e2a2d', backgroundColor: 'white', borderRadius: '12px', textDecoration: 'none'}}>
+                    {content.cta2Text} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
+                  </a>
+                )}
+              </div>
+              {track === 'company' && <p style={{fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginTop: '16px'}}>Diagnostic fee applies as credit toward any engagement.</p>}
             </div>
-            {track === 'company' && <p style={{fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginTop: '16px'}}>Diagnostic fee applies as credit toward any engagement.</p>}
-          </div>
 
-          <div style={{textAlign: 'center', marginTop: '32px', fontSize: '14px', color: '#4c5f62'}}>© 2026 Revfinery · Built to surface truth.</div>
+            <div style={{textAlign: 'center', marginTop: '32px', fontSize: '14px', color: '#4c5f62'}}>© 2026 Revfinery · Built to surface truth.</div>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   if (view === 'email') {
     return (
-      <div style={{minHeight: '100vh', padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #fbf6f1 0%, #fff7e8 50%, #eaf6f7 100%)'}}>
-        <div style={{maxWidth: '448px', width: '100%', padding: '32px', backgroundColor: 'white', borderRadius: '18px', border: '3px solid #ffd166', boxShadow: '0 18px 40px rgba(0,0,0,0.14)', position: 'relative'}}>
-          <div style={{position: 'absolute', top: '-24px', left: '50%', transform: 'translateX(-50%)', width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: '#0c6b73'}}>
-            <CheckCircle style={{width: '28px', height: '28px', color: 'white'}}/>
+      <>
+        <Header />
+        <div style={{minHeight: '100vh', paddingTop: '80px', padding: '80px 16px 16px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #fbf6f1 0%, #fff7e8 50%, #eaf6f7 100%)'}}>
+          <div style={{maxWidth: '448px', width: '100%', padding: '32px', backgroundColor: 'white', borderRadius: '18px', border: '3px solid #ffd166', boxShadow: '0 18px 40px rgba(0,0,0,0.14)', position: 'relative'}}>
+            <div style={{position: 'absolute', top: '-24px', left: '50%', transform: 'translateX(-50%)', width: '56px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: '#0c6b73'}}>
+              <CheckCircle style={{width: '28px', height: '28px', color: 'white'}}/>
+            </div>
+            <div style={{marginTop: '32px', marginBottom: '24px', textAlign: 'center'}}>
+              <h2 style={{fontSize: '24px', fontWeight: 'bold', marginBottom: '8px', color: '#0e2a2d'}}>Assessment Complete! 🎉</h2>
+              <p style={{color: '#4c5f62'}}>Enter your email to see your personalized results.</p>
+            </div>
+            <input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} style={{width: '100%', padding: '16px 20px', fontSize: '18px', marginBottom: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}/>
+            <button onClick={() => setView('results')} disabled={!email.includes('@')} style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: !email.includes('@') ? 0.5 : 1}}>
+              View My Results →
+            </button>
+            <p style={{fontSize: '12px', textAlign: 'center', marginTop: '16px', color: '#4c5f62'}}>We'll send a copy and occasional insights. No spam.</p>
           </div>
-          <div style={{marginTop: '32px', marginBottom: '24px', textAlign: 'center'}}>
-            <h2 style={{fontSize: '24px', fontWeight: 'bold', marginBottom: '8px', color: '#0e2a2d'}}>Assessment Complete! 🎉</h2>
-            <p style={{color: '#4c5f62'}}>Enter your email to see your personalized results.</p>
-          </div>
-          <input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} style={{width: '100%', padding: '16px 20px', fontSize: '18px', marginBottom: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}/>
-          <button onClick={() => setView('results')} disabled={!email.includes('@')} style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: !email.includes('@') ? 0.5 : 1}}>
-            View My Results →
-          </button>
-          <p style={{fontSize: '12px', textAlign: 'center', marginTop: '16px', color: '#4c5f62'}}>We'll send a copy and occasional insights. No spam.</p>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -271,59 +290,61 @@ export default function RevfineryAssessment() {
   const progress = ((step + 1) / sections.length) * 100;
 
   return (
-    <div style={{minHeight: '100vh', padding: '32px 16px', background: 'linear-gradient(135deg, #fbf6f1 0%, #fff7e8 50%, #eaf6f7 100%)'}}>
-      <div style={{maxWidth: '768px', margin: '0 auto'}}>
-        <div style={{marginBottom: '24px', textAlign: 'center'}}>
-          <span style={{display: 'inline-block', padding: '8px 16px', marginBottom: '12px', fontWeight: 'bold', fontSize: '14px', backgroundColor: track === 'company' ? '#0c6b73' : '#f25025', color: 'white', borderRadius: '12px'}}>
-            {track === 'company' ? '🏢 COMPANY ASSESSMENT' : '👤 INDIVIDUAL ASSESSMENT'}
-          </span>
-          <h1 style={{fontSize: '28px', fontWeight: 'bold', marginBottom: '4px', color: '#0e2a2d'}}>{track === 'company' ? 'Revenue Health Assessment' : 'Sales Skills Assessment'}</h1>
-          <p style={{color: '#4c5f62'}}>5 minutes. Honest answers. Real clarity.</p>
-        </div>
-
-        <div style={{padding: '20px', marginBottom: '24px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)'}}>
-          <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '14px', fontWeight: '600', marginBottom: '8px'}}>
-            <span style={{color: '#0e2a2d'}}>Section {step + 1} of {sections.length}</span>
-            <span style={{color: '#0c6b73'}}>{Math.round(progress)}%</span>
+    <>
+      <Header />
+      <div style={{minHeight: '100vh', paddingTop: '80px', padding: '80px 16px 32px 16px', background: 'linear-gradient(135deg, #fbf6f1 0%, #fff7e8 50%, #eaf6f7 100%)'}}>
+        <div style={{maxWidth: '768px', margin: '0 auto'}}>
+          <div style={{marginBottom: '24px', textAlign: 'center'}}>
+            <span style={{display: 'inline-block', padding: '8px 16px', marginBottom: '12px', fontWeight: 'bold', fontSize: '14px', backgroundColor: track === 'company' ? '#0c6b73' : '#f25025', color: 'white', borderRadius: '12px'}}>
+              {track === 'company' ? '🏢 COMPANY ASSESSMENT' : '👤 INDIVIDUAL ASSESSMENT'}
+            </span>
+            <h1 style={{fontSize: '28px', fontWeight: 'bold', marginBottom: '4px', color: '#0e2a2d'}}>{track === 'company' ? 'Revenue Health Assessment' : 'Sales Skills Assessment'}</h1>
+            <p style={{color: '#4c5f62'}}>5 minutes. Honest answers. Real clarity.</p>
           </div>
-          <div style={{height: '12px', backgroundColor: '#eaf6f7', borderRadius: '12px', overflow: 'hidden'}}>
-            <div style={{height: '12px', width: `${progress}%`, background: track === 'company' ? 'linear-gradient(90deg, #0c6b73, #ffd166)' : 'linear-gradient(90deg, #f25025, #ffd166)', borderRadius: '12px', transition: 'width 0.3s'}}/>
-          </div>
-        </div>
 
-        <div style={{padding: '32px', marginBottom: '24px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)'}}>
-          <h2 style={{fontSize: '24px', fontWeight: 'bold', marginBottom: '4px', color: '#0e2a2d'}}>{sec.title}</h2>
-          <p style={{marginBottom: '24px', color: '#4c5f62'}}>{sec.desc}</p>
-          {sec.questions.map((q) => (
-            <div key={q.id} style={{marginBottom: '24px'}}>
-              <p style={{fontWeight: '600', marginBottom: '12px', color: '#0e2a2d'}}>{q.text}</p>
-              <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
-                {q.options.map((opt, i) => (
-                  <label key={i} style={{display: 'flex', alignItems: 'center', padding: '16px', cursor: 'pointer', border: answers[q.id] === i+1 ? `3px solid ${track === 'company' ? '#0c6b73' : '#f25025'}` : '1px solid rgba(0,0,0,0.08)', backgroundColor: answers[q.id] === i+1 ? (track === 'company' ? '#eaf6f7' : '#fff7e8') : 'white', borderRadius: '12px', transition: 'all 0.2s'}}>
-                    <input type="radio" name={q.id} checked={answers[q.id] === i+1} onChange={() => setAnswers({...answers, [q.id]: i+1})} style={{marginRight: '12px', accentColor: track === 'company' ? '#0c6b73' : '#f25025'}}/>
-                    <span style={{color: '#4c5f62'}}>{opt}</span>
-                  </label>
-                ))}
-              </div>
+          <div style={{padding: '20px', marginBottom: '24px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '14px', fontWeight: '600', marginBottom: '8px'}}>
+              <span style={{color: '#0e2a2d'}}>Section {step + 1} of {sections.length}</span>
+              <span style={{color: '#0c6b73'}}>{Math.round(progress)}%</span>
             </div>
-          ))}
-        </div>
+            <div style={{height: '12px', backgroundColor: '#eaf6f7', borderRadius: '12px', overflow: 'hidden'}}>
+              <div style={{height: '12px', width: `${progress}%`, background: track === 'company' ? 'linear-gradient(90deg, #0c6b73, #ffd166)' : 'linear-gradient(90deg, #f25025, #ffd166)', borderRadius: '12px', transition: 'width 0.3s'}}/>
+            </div>
+          </div>
 
-        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)'}}>
-          <button onClick={() => step === 0 ? (setView('select'), setTrack(null), setAnswers({})) : setStep(step - 1)} style={{display: 'flex', alignItems: 'center', background: 'none', border: 'none', color: '#4c5f62', cursor: 'pointer', fontSize: '16px'}}>
-            <ArrowLeft style={{width: '16px', height: '16px', marginRight: '8px'}}/> {step === 0 ? 'Change Track' : 'Previous'}
-          </button>
-          <div style={{display: 'flex', gap: '4px'}}>
-            {sections.map((_, i) => (
-              <div key={i} style={{width: '8px', height: '8px', borderRadius: '50%', backgroundColor: i === step ? (track === 'company' ? '#0c6b73' : '#f25025') : i < step ? '#ffd166' : '#eaf6f7'}}/>
+          <div style={{padding: '32px', marginBottom: '24px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)'}}>
+            <h2 style={{fontSize: '24px', fontWeight: 'bold', marginBottom: '4px', color: '#0e2a2d'}}>{sec.title}</h2>
+            <p style={{marginBottom: '24px', color: '#4c5f62'}}>{sec.desc}</p>
+            {sec.questions.map((q) => (
+              <div key={q.id} style={{marginBottom: '24px'}}>
+                <p style={{fontWeight: '600', marginBottom: '12px', color: '#0e2a2d'}}>{q.text}</p>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+                  {q.options.map((opt, i) => (
+                    <label key={i} style={{display: 'flex', alignItems: 'center', padding: '16px', cursor: 'pointer', border: answers[q.id] === i+1 ? `3px solid ${track === 'company' ? '#0c6b73' : '#f25025'}` : '1px solid rgba(0,0,0,0.08)', backgroundColor: answers[q.id] === i+1 ? (track === 'company' ? '#eaf6f7' : '#fff7e8') : 'white', borderRadius: '12px', transition: 'all 0.2s'}}>
+                      <input type="radio" name={q.id} checked={answers[q.id] === i+1} onChange={() => setAnswers({...answers, [q.id]: i+1})} style={{marginRight: '12px', accentColor: track === 'company' ? '#0c6b73' : '#f25025'}}/>
+                      <span style={{color: '#4c5f62'}}>{opt}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-          <button onClick={() => step === sections.length - 1 ? setView('email') : setStep(step + 1)} disabled={!done} style={{display: 'flex', alignItems: 'center', padding: '8px 24px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: !done ? 0.5 : 1, fontSize: '16px'}}>
-            {step === sections.length - 1 ? 'Finish' : 'Next'} <ArrowRight style={{width: '16px', height: '16px', marginLeft: '8px'}}/>
-          </button>
+
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)'}}>
+            <button onClick={() => step === 0 ? (setView('select'), setTrack(null), setAnswers({})) : setStep(step - 1)} style={{display: 'flex', alignItems: 'center', background: 'none', border: 'none', color: '#4c5f62', cursor: 'pointer', fontSize: '16px'}}>
+              <ArrowLeft style={{width: '16px', height: '16px', marginRight: '8px'}}/> {step === 0 ? 'Change Track' : 'Previous'}
+            </button>
+            <div style={{display: 'flex', gap: '4px'}}>
+              {sections.map((_, i) => (
+                <div key={i} style={{width: '8px', height: '8px', borderRadius: '50%', backgroundColor: i === step ? (track === 'company' ? '#0c6b73' : '#f25025') : i < step ? '#ffd166' : '#eaf6f7'}}/>
+              ))}
+            </div>
+            <button onClick={() => step === sections.length - 1 ? setView('email') : setStep(step + 1)} disabled={!done} style={{display: 'flex', alignItems: 'center', padding: '8px 24px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: !done ? 0.5 : 1, fontSize: '16px'}}>
+              {step === sections.length - 1 ? 'Finish' : 'Next'} <ArrowRight style={{width: '16px', height: '16px', marginLeft: '8px'}}/>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
-
