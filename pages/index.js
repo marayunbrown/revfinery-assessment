@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ArrowLeft, CheckCircle, AlertTriangle, TrendingUp, Target, Building2, User } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle, AlertTriangle, TrendingUp, Target, Building2, User, Star } from 'lucide-react';
 
 const companySections = [
   { id: 'pipeline', title: 'Pipeline & Forecast Health', desc: 'How predictable is your deal flow?',
@@ -191,19 +191,56 @@ export default function RevfineryAssessment() {
     setView('results');
   };
 
+  // Company tiers remain focused on diagnostic
   const companyTiers = {
     low: { icon: AlertTriangle, iconColor: '#f25025', headline: "You're leaving serious revenue on the table.", subhead: "The gaps in your system are costing you deals. But they're fixable.", ctaText: "Book Your Diagnostic", ctaSubtext: "Let's find the fastest path — likely process fixes and leadership support.", urgency: "Most teams see improvement within 30-60 days." },
     mid: { icon: Target, iconColor: '#ffd166', headline: "You have real gaps — but they're fixable.", subhead: "Your system is working, but leaking. The Diagnostic builds your 30-90 day plan.", ctaText: "Book Your Diagnostic", ctaSubtext: "We'll map the right mix of training, process, or support.", urgency: "Teams at this stage need a focused 90-day push." },
     high: { icon: TrendingUp, iconColor: '#0c6b73', headline: "You're in good shape — let's optimize.", subhead: "Your foundation is solid. Let's find the fine-tuning opportunities.", ctaText: "Book Your Diagnostic", ctaSubtext: "At your level, it's usually targeted training or a workshop.", urgency: "High performers use diagnostics for 10-15% compound gains." }
   };
 
+  // Updated individual tiers with Talent Network / Bench routing
   const individualTiers = {
-    low: { icon: AlertTriangle, iconColor: '#f25025', headline: "You've got work to do — and that's okay.", subhead: "Every great seller started somewhere. The fundamentals will change your trajectory.", ctaText: "Join the Revfinery Network", ctaSubtext: "Get the Fundamentals Playbook and start building your foundation.", cta2Text: "Get the Playbooks", cta2Link: "https://www.revfinery.com/playbooks", urgency: "Most reps at this stage see improvement within 30 days of focused work." },
-    mid: { icon: Target, iconColor: '#ffd166', headline: "You're solid — but there's another level.", subhead: "You have skills. Now it's about sharpening the edges and filling gaps.", ctaText: "Join the Revfinery Network", ctaSubtext: "Access coursework and community to level up your game.", cta2Text: "Explore Coursework", cta2Link: "https://www.revfinery.com/training", urgency: "Focused skill work at this stage compounds fast." },
-    high: { icon: TrendingUp, iconColor: '#0c6b73', headline: "You're a top performer.", subhead: "Rare skills. Have you considered helping others build theirs?", ctaText: "Join the Revfinery Network", ctaSubtext: "Connect with other top performers and explore the Revfinery Bench.", cta2Text: "Apply for the Bench", cta2Link: "https://www.revfinery.com/contact", urgency: "Top performers in our network consult on real client engagements." }
+    low: { 
+      icon: AlertTriangle, 
+      iconColor: '#f25025', 
+      headline: "You've got work to do — and that's okay.", 
+      subhead: "Every great seller started somewhere. The Talent Network will help you build your foundation.",
+      ctaText: "Apply to the Talent Network",
+      ctaSubtext: "Get access to training, playbooks, and skill-building opportunities.",
+      urgency: "Most reps at this stage see improvement within 30 days of focused work.",
+      applyPath: 'network'
+    },
+    mid: { 
+      icon: Target, 
+      iconColor: '#ffd166', 
+      headline: "You're solid — but there's another level.", 
+      subhead: "You have skills. The Talent Network will help you sharpen your edges and get matched to opportunities.",
+      ctaText: "Apply to the Talent Network",
+      ctaSubtext: "Access training, get matched to projects, and keep growing.",
+      urgency: "Focused skill work at this stage compounds fast.",
+      applyPath: 'network'
+    },
+    high: { 
+      icon: Star, 
+      iconColor: '#0c6b73', 
+      headline: "You're Bench material. 🔥", 
+      subhead: "Top 25% scorer. You qualify for the Revfinery Bench — our network of top performers who consult on real client engagements.",
+      ctaText: "Apply to the Bench",
+      ctaSubtext: "Work on real client projects, set your own rate, and build your reputation.",
+      urgency: "Bench members work directly alongside Revfinery on client engagements.",
+      applyPath: 'bench',
+      // Secondary CTA for high scorers who want Network instead
+      cta2Text: "Or join the Talent Network",
+      cta2Path: 'network'
+    }
   };
 
   const getTier = (score) => score >= 75 ? 'high' : score >= 50 ? 'mid' : 'low';
+
+  // Build application URL with score parameter
+  const getApplyUrl = (path, score) => {
+    return `https://revfinery-apply.vercel.app/${path}?score=${score}&email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}`;
+  };
 
   const isFormValid = firstName.trim() && lastName.trim() && email.includes('@');
 
@@ -264,11 +301,13 @@ export default function RevfineryAssessment() {
               </div>
             </div>
 
+            {/* Headline Card */}
             <div style={{padding: '32px', marginBottom: '32px', textAlign: 'center', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', borderTop: `4px solid ${content.iconColor}`}}>
               <h2 style={{fontSize: '28px', fontWeight: 'bold', marginBottom: '12px', color: '#0e2a2d'}}>{content.headline}</h2>
               <p style={{fontSize: '18px', color: '#4c5f62'}}>{content.subhead}</p>
             </div>
 
+            {/* Score Breakdown */}
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '32px'}}>
               {scores.map(s => (
                 <div key={s.id} style={{padding: '20px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: `3px solid ${getColor(s.score)}`}}>
@@ -283,6 +322,7 @@ export default function RevfineryAssessment() {
               ))}
             </div>
 
+            {/* Blocker Card */}
             <div style={{padding: '32px', marginBottom: '32px', backgroundColor: 'white', borderRadius: '18px', border: '4px solid #f25025', boxShadow: '0 18px 40px rgba(0,0,0,0.14)'}}>
               <div style={{display: 'flex', alignItems: 'flex-start', gap: '16px'}}>
                 <AlertTriangle style={{width: '40px', height: '40px', flexShrink: 0, color: '#f25025'}}/>
@@ -296,20 +336,44 @@ export default function RevfineryAssessment() {
               </div>
             </div>
 
+            {/* CTA Card - Different for Company vs Individual */}
             <div style={{padding: '32px', textAlign: 'center', background: 'linear-gradient(135deg, #0c6b73, #0a5a61)', borderRadius: '18px', boxShadow: '0 18px 40px rgba(12,107,115,0.3)'}}>
+              
+              {/* Special badge for Bench-qualified scorers */}
+              {track === 'individual' && tier === 'high' && (
+                <div style={{display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', marginBottom: '16px', backgroundColor: '#ffd166', borderRadius: '12px'}}>
+                  <Star style={{width: '18px', height: '18px', color: '#0e2a2d'}}/>
+                  <span style={{fontWeight: 'bold', fontSize: '14px', color: '#0e2a2d'}}>TOP 25% — BENCH QUALIFIED</span>
+                </div>
+              )}
+              
               <h3 style={{fontSize: '28px', fontWeight: 'bold', color: 'white', marginBottom: '12px'}}>{content.ctaText}</h3>
               <p style={{fontSize: '18px', color: 'rgba(255,255,255,0.9)', marginBottom: '8px'}}>{content.ctaSubtext}</p>
               <p style={{fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '24px'}}>{content.urgency}</p>
+              
               <div style={{display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center'}}>
-                <a href={track === 'company' ? 'https://www.revfinery.com/diagnostic' : 'https://www.revfinery.com/contact'} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
-                  {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
-                </a>
-                {track === 'individual' && content.cta2Text && (
-                  <a href={content.cta2Link} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: '#0e2a2d', backgroundColor: 'white', borderRadius: '12px', textDecoration: 'none'}}>
-                    {content.cta2Text} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
+                {track === 'company' ? (
+                  // Company track - link to diagnostic
+                  <a href="https://www.revfinery.com/diagnostic" style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
+                    {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
                   </a>
+                ) : (
+                  // Individual track - link to application forms with score
+                  <>
+                    <a href={getApplyUrl(content.applyPath, overall)} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
+                      {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
+                    </a>
+                    
+                    {/* Secondary CTA for high scorers */}
+                    {content.cta2Text && (
+                      <a href={getApplyUrl(content.cta2Path, overall)} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: '#0e2a2d', backgroundColor: 'white', borderRadius: '12px', textDecoration: 'none'}}>
+                        {content.cta2Text} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
+                      </a>
+                    )}
+                  </>
                 )}
               </div>
+              
               {track === 'company' && <p style={{fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginTop: '16px'}}>Diagnostic fee applies as credit toward any engagement.</p>}
             </div>
 
@@ -432,4 +496,5 @@ export default function RevfineryAssessment() {
       </div>
     </>
   );
+}
 }
