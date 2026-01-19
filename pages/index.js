@@ -124,7 +124,6 @@ export default function RevfineryAssessment() {
   const sections = track === 'company' ? companySections : individualSections;
   const blockerRecs = track === 'company' ? companyBlockerRecs : individualBlockerRecs;
 
-  // Scroll to top when step or view changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [step, view]);
@@ -171,17 +170,13 @@ export default function RevfineryAssessment() {
     try {
       const response = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formGuid}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
       
       if (response.ok) {
         console.log('Successfully submitted to HubSpot');
         console.log(`Track: ${track}, Score: ${overall}%, Tier: ${tierLabel}, Blocker: ${lowest.title}`);
-      } else {
-        console.log('HubSpot submission failed, but showing results anyway');
       }
     } catch (error) {
       console.log('HubSpot submission error, but showing results anyway');
@@ -191,14 +186,12 @@ export default function RevfineryAssessment() {
     setView('results');
   };
 
-  // Company tiers remain focused on diagnostic
   const companyTiers = {
     low: { icon: AlertTriangle, iconColor: '#f25025', headline: "You're leaving serious revenue on the table.", subhead: "The gaps in your system are costing you deals. But they're fixable.", ctaText: "Book Your Diagnostic", ctaSubtext: "Let's find the fastest path — likely process fixes and leadership support.", urgency: "Most teams see improvement within 30-60 days." },
     mid: { icon: Target, iconColor: '#ffd166', headline: "You have real gaps — but they're fixable.", subhead: "Your system is working, but leaking. The Diagnostic builds your 30-90 day plan.", ctaText: "Book Your Diagnostic", ctaSubtext: "We'll map the right mix of training, process, or support.", urgency: "Teams at this stage need a focused 90-day push." },
     high: { icon: TrendingUp, iconColor: '#0c6b73', headline: "You're in good shape — let's optimize.", subhead: "Your foundation is solid. Let's find the fine-tuning opportunities.", ctaText: "Book Your Diagnostic", ctaSubtext: "At your level, it's usually targeted training or a workshop.", urgency: "High performers use diagnostics for 10-15% compound gains." }
   };
 
-  // Updated individual tiers with Talent Network / Bench routing
   const individualTiers = {
     low: { 
       icon: AlertTriangle, 
@@ -228,16 +221,12 @@ export default function RevfineryAssessment() {
       ctaText: "Apply to the Bench",
       ctaSubtext: "Work on real client projects, set your own rate, and build your reputation.",
       urgency: "Bench members work directly alongside Revfinery on client engagements.",
-      applyPath: 'bench',
-      // Secondary CTA for high scorers who want Network instead
-      cta2Text: "Or join the Talent Network",
-      cta2Path: 'network'
+      applyPath: 'bench'
     }
   };
 
   const getTier = (score) => score >= 75 ? 'high' : score >= 50 ? 'mid' : 'low';
 
-  // Build application URL with score parameter
   const getApplyUrl = (path, score) => {
     return `https://revfinery-apply.vercel.app/${path}?score=${score}&email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}`;
   };
@@ -301,13 +290,11 @@ export default function RevfineryAssessment() {
               </div>
             </div>
 
-            {/* Headline Card */}
             <div style={{padding: '32px', marginBottom: '32px', textAlign: 'center', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', borderTop: `4px solid ${content.iconColor}`}}>
               <h2 style={{fontSize: '28px', fontWeight: 'bold', marginBottom: '12px', color: '#0e2a2d'}}>{content.headline}</h2>
               <p style={{fontSize: '18px', color: '#4c5f62'}}>{content.subhead}</p>
             </div>
 
-            {/* Score Breakdown */}
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '32px'}}>
               {scores.map(s => (
                 <div key={s.id} style={{padding: '20px', backgroundColor: 'white', borderRadius: '18px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', border: `3px solid ${getColor(s.score)}`}}>
@@ -322,7 +309,6 @@ export default function RevfineryAssessment() {
               ))}
             </div>
 
-            {/* Blocker Card */}
             <div style={{padding: '32px', marginBottom: '32px', backgroundColor: 'white', borderRadius: '18px', border: '4px solid #f25025', boxShadow: '0 18px 40px rgba(0,0,0,0.14)'}}>
               <div style={{display: 'flex', alignItems: 'flex-start', gap: '16px'}}>
                 <AlertTriangle style={{width: '40px', height: '40px', flexShrink: 0, color: '#f25025'}}/>
@@ -336,10 +322,8 @@ export default function RevfineryAssessment() {
               </div>
             </div>
 
-            {/* CTA Card - Different for Company vs Individual */}
             <div style={{padding: '32px', textAlign: 'center', background: 'linear-gradient(135deg, #0c6b73, #0a5a61)', borderRadius: '18px', boxShadow: '0 18px 40px rgba(12,107,115,0.3)'}}>
               
-              {/* Special badge for Bench-qualified scorers */}
               {track === 'individual' && tier === 'high' && (
                 <div style={{display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', marginBottom: '16px', backgroundColor: '#ffd166', borderRadius: '12px'}}>
                   <Star style={{width: '18px', height: '18px', color: '#0e2a2d'}}/>
@@ -353,24 +337,13 @@ export default function RevfineryAssessment() {
               
               <div style={{display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center'}}>
                 {track === 'company' ? (
-                  // Company track - link to diagnostic
                   <a href="https://www.revfinery.com/diagnostic" style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
                     {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
                   </a>
                 ) : (
-                  // Individual track - link to application forms with score
-                  <>
-                    <a href={getApplyUrl(content.applyPath, overall)} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
-                      {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
-                    </a>
-                    
-                    {/* Secondary CTA for high scorers */}
-                    {content.cta2Text && (
-                      <a href={getApplyUrl(content.cta2Path, overall)} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: '#0e2a2d', backgroundColor: 'white', borderRadius: '12px', textDecoration: 'none'}}>
-                        {content.cta2Text} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
-                      </a>
-                    )}
-                  </>
+                  <a href={getApplyUrl(content.applyPath, overall)} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
+                    {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
+                  </a>
                 )}
               </div>
               
@@ -398,33 +371,11 @@ export default function RevfineryAssessment() {
               <p style={{color: '#4c5f62'}}>Enter your info to see your personalized results.</p>
             </div>
             <div style={{display: 'flex', gap: '12px', marginBottom: '12px'}}>
-              <input 
-                type="text" 
-                placeholder="First name" 
-                value={firstName} 
-                onChange={(e) => setFirstName(e.target.value)} 
-                style={{flex: '1 1 0%', minWidth: 0, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
-              />
-              <input 
-                type="text" 
-                placeholder="Last name" 
-                value={lastName} 
-                onChange={(e) => setLastName(e.target.value)} 
-                style={{flex: '1 1 0%', minWidth: 0, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
-              />
+              <input type="text" placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} style={{flex: '1 1 0%', minWidth: 0, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}/>
+              <input type="text" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} style={{flex: '1 1 0%', minWidth: 0, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}/>
             </div>
-            <input 
-              type="email" 
-              placeholder="your@email.com" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              style={{width: '100%', padding: '14px 16px', fontSize: '16px', marginBottom: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}
-            />
-            <button 
-              onClick={submitToHubSpot} 
-              disabled={!isFormValid || isSubmitting} 
-              style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: (!isFormValid || isSubmitting) ? 0.5 : 1, boxSizing: 'border-box'}}
-            >
+            <input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} style={{width: '100%', padding: '14px 16px', fontSize: '16px', marginBottom: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}/>
+            <button onClick={submitToHubSpot} disabled={!isFormValid || isSubmitting} style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: (!isFormValid || isSubmitting) ? 0.5 : 1, boxSizing: 'border-box'}}>
               {isSubmitting ? 'Loading...' : 'View My Results →'}
             </button>
             <p style={{fontSize: '12px', textAlign: 'center', marginTop: '16px', color: '#4c5f62'}}>We'll send a copy and occasional insights. No spam.</p>
