@@ -119,7 +119,6 @@ export default function RevfineryAssessment() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [view, setView] = useState('select');
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const sections = track === 'company' ? companySections : individualSections;
   const blockerRecs = track === 'company' ? companyBlockerRecs : individualBlockerRecs;
@@ -139,51 +138,6 @@ export default function RevfineryAssessment() {
     const overall = Math.round(scores.reduce((a,b) => a + b.score, 0) / scores.length);
     const lowest = scores.reduce((m,s) => s.score < m.score ? s : m);
     return { scores, overall, lowest };
-  };
-
-  const submitToHubSpot = async () => {
-    setIsSubmitting(true);
-    const { overall, lowest } = calcResults();
-    const tierLabel = overall >= 75 ? 'High' : overall >= 50 ? 'Mid' : 'Low';
-    
-    const portalId = '244430724';
-    const formGuid = '426f2679-fef4-4fe5-9729-6b407d31104f';
-    
-    const data = {
-      fields: [
-        { name: 'firstname', value: firstName },
-        { name: 'lastname', value: lastName },
-        { name: 'email', value: email }
-      ],
-      context: {
-        pageUri: window.location.href,
-        pageName: `Revfinery Assessment - ${track === 'company' ? 'Company' : 'Individual'} Track`
-      },
-      legalConsentOptions: {
-        consent: {
-          consentToProcess: true,
-          text: "I agree to receive communications from Revfinery."
-        }
-      }
-    };
-
-    try {
-      const response = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formGuid}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      
-      if (response.ok) {
-        console.log('Successfully submitted to HubSpot');
-        console.log(`Track: ${track}, Score: ${overall}%, Tier: ${tierLabel}, Blocker: ${lowest.title}`);
-      }
-    } catch (error) {
-      console.log('HubSpot submission error, but showing results anyway');
-    }
-    
-    setIsSubmitting(false);
-    setView('results');
   };
 
   const companyTiers = {
@@ -227,8 +181,17 @@ export default function RevfineryAssessment() {
 
   const getTier = (score) => score >= 75 ? 'high' : score >= 50 ? 'mid' : 'low';
 
-  const getApplyUrl = (path, score) => {
-    return `https://revfinery-apply.vercel.app/${path}?score=${score}&email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}`;
+  // Build URL with score and user info to pass to application forms
+  const getApplyUrl = (path, score, tier, blocker) => {
+    const params = new URLSearchParams({
+      score: score,
+      tier: tier,
+      blocker: blocker,
+      email: email,
+      firstName: firstName,
+      lastName: lastName
+    });
+    return `https://revfinery-apply.vercel.app/${path}?${params.toString()}`;
   };
 
   const isFormValid = firstName.trim() && lastName.trim() && email.includes('@');
@@ -271,6 +234,7 @@ export default function RevfineryAssessment() {
   if (view === 'results') {
     const { scores, overall, lowest } = calcResults();
     const tier = getTier(overall);
+    const tierLabel = overall >= 75 ? 'High' : overall >= 50 ? 'Mid' : 'Low';
     const tiers = track === 'company' ? companyTiers : individualTiers;
     const content = tiers[tier];
     const blocker = blockerRecs[lowest.id];
@@ -341,7 +305,7 @@ export default function RevfineryAssessment() {
                     {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
                   </a>
                 ) : (
-                  <a href={getApplyUrl(content.applyPath, overall)} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
+                  <a href={getApplyUrl(content.applyPath, overall, tierLabel, blocker.area)} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '16px 32px', fontSize: '18px', fontWeight: 'bold', color: 'white', backgroundColor: '#f25025', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 10px 25px rgba(242,80,37,0.3)'}}>
                     {content.ctaText} <ArrowRight style={{marginLeft: '8px', width: '20px', height: '20px'}}/>
                   </a>
                 )}
@@ -375,10 +339,10 @@ export default function RevfineryAssessment() {
               <input type="text" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} style={{flex: '1 1 0%', minWidth: 0, padding: '14px 16px', fontSize: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}/>
             </div>
             <input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} style={{width: '100%', padding: '14px 16px', fontSize: '16px', marginBottom: '16px', border: '2px solid rgba(0,0,0,0.08)', borderRadius: '12px', outline: 'none', boxSizing: 'border-box'}}/>
-            <button onClick={submitToHubSpot} disabled={!isFormValid || isSubmitting} style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: (!isFormValid || isSubmitting) ? 0.5 : 1, boxSizing: 'border-box'}}>
-              {isSubmitting ? 'Loading...' : 'View My Results →'}
+            <button onClick={() => setView('results')} disabled={!isFormValid} style={{width: '100%', padding: '16px 24px', fontSize: '18px', fontWeight: 'bold', backgroundColor: '#f25025', color: 'white', borderRadius: '12px', border: 'none', cursor: 'pointer', opacity: !isFormValid ? 0.5 : 1, boxSizing: 'border-box'}}>
+              View My Results →
             </button>
-            <p style={{fontSize: '12px', textAlign: 'center', marginTop: '16px', color: '#4c5f62'}}>We'll send a copy and occasional insights. No spam.</p>
+            <p style={{fontSize: '12px', textAlign: 'center', marginTop: '16px', color: '#4c5f62'}}>Your info will be passed to the application form.</p>
           </div>
         </div>
       </>
