@@ -4,83 +4,284 @@ import { ArrowRight, ArrowLeft, CheckCircle, AlertTriangle, TrendingUp, Target, 
 const companySections = [
   { id: 'pipeline', title: 'Pipeline & Forecast Health', desc: 'How predictable is your deal flow?',
     questions: [
-      { id: 'p1', text: 'How often do forecasted deals close in the expected quarter?', options: ['Less than 50%', '50-70%', '70-85%', 'More than 85%'] },
-      { id: 'p2', text: 'When deals slip, how clearly can you identify why?', options: ['Vague or unknown', 'Some idea', 'Usually pinpoint it', 'Clear patterns'] },
-      { id: 'p3', text: 'How often does pipeline coverage convert to closed deals?', options: ['Rarely matches', 'Sometimes', 'Usually within 20%', 'Consistently'] },
-      { id: 'p4', text: 'Do forecast changes happen early or late in the quarter?', options: ['Last 2-3 weeks', 'Heavy late', 'Spread evenly', 'Minimal, early signals'] }
+      { id: 'p1', text: 'How often do forecasted deals close in the expected quarter?', options: ['Less than 50%', '50-70%', '70-85%', 'More than 85%'], scores: [1, 2, 3, 4] },
+      { id: 'p2', text: 'When deals slip, how clearly can you identify why?', options: ['Vague or unknown', 'Some idea', 'Usually pinpoint it', 'Clear patterns'], scores: [1, 2, 3, 4] },
+      { id: 'p3', text: 'How often does pipeline coverage convert to closed deals?', options: ['Rarely matches', 'Sometimes', 'Usually within 20%', 'Consistently'], scores: [1, 2, 3, 4] },
+      { id: 'p4', text: 'Do forecast changes happen early or late in the quarter?', options: ['Last 2-3 weeks', 'Heavy late', 'Spread evenly', 'Minimal, early signals'], scores: [1, 2, 3, 4] }
     ]},
   { id: 'messaging', title: 'Messaging & Market Alignment', desc: 'Does your message land with buyers?',
     questions: [
-      { id: 'm1', text: 'How often do prospects articulate your value in their own words?', options: ['Rarely', 'Sometimes', 'Most of the time', 'Consistently'] },
-      { id: 'm2', text: "When deals stall, how often is it because they \"don't see the value\"?", options: ['Very frequently', 'Often', 'Occasionally', 'Rarely'] },
-      { id: 'm3', text: 'How consistent is messaging across reps and channels?', options: ['Everyone different', 'Loosely aligned', 'Generally consistent', 'Highly consistent'] },
-      { id: 'm4', text: 'Can reps articulate why to choose you vs. doing nothing?', options: ['Most struggle', 'Some can', 'Most can', 'All have it down'] }
+      { id: 'm1', text: 'How often do prospects articulate your value in their own words?', options: ['Rarely', 'Sometimes', 'Most of the time', 'Consistently'], scores: [1, 2, 3, 4] },
+      { id: 'm2', text: "When deals stall, how often is it because they \"don't see the value\"?", options: ['Very frequently', 'Often', 'Occasionally', 'Rarely'], scores: [1, 2, 3, 4] },
+      { id: 'm3', text: 'How consistent is messaging across reps and channels?', options: ['Everyone different', 'Loosely aligned', 'Generally consistent', 'Highly consistent'], scores: [1, 2, 3, 4] },
+      { id: 'm4', text: 'Can reps articulate why to choose you vs. doing nothing?', options: ['Most struggle', 'Some can', 'Most can', 'All have it down'], scores: [1, 2, 3, 4] }
     ]},
   { id: 'transparency', title: 'Team Transparency & Trust', desc: 'Does truth travel in your organization?',
     questions: [
-      { id: 't1', text: "How comfortable are reps sharing when they don't know why a deal is stuck?", options: ['Very uncomfortable', 'Somewhat', 'Generally comfortable', 'Completely comfortable'] },
-      { id: 't2', text: 'When you ask managers for deal truth, what do you get?', options: ['Optimistic stories', 'Mix of hope/reality', 'Mostly honest', 'Unvarnished truth'] },
-      { id: 't3', text: 'How often are you surprised by deals that close or fall apart?', options: ['Frequently', 'Sometimes', 'Rarely', 'Almost never'] },
-      { id: 't4', text: 'Do reps feel safe admitting they need help?', options: ['No - feels risky', 'Sometimes', 'Usually', 'Always'] }
+      { id: 't1', text: "How comfortable are reps sharing when they don't know why a deal is stuck?", options: ['Very uncomfortable', 'Somewhat', 'Generally comfortable', 'Completely comfortable'], scores: [1, 2, 3, 4] },
+      { id: 't2', text: 'When you ask managers for deal truth, what do you get?', options: ['Optimistic stories', 'Mix of hope/reality', 'Mostly honest', 'Unvarnished truth'], scores: [1, 2, 3, 4] },
+      { id: 't3', text: 'How often are you surprised by deals that close or fall apart?', options: ['Frequently', 'Sometimes', 'Rarely', 'Almost never'], scores: [1, 2, 3, 4] },
+      { id: 't4', text: 'Do reps feel safe admitting they need help?', options: ['No - feels risky', 'Sometimes', 'Usually', 'Always'], scores: [1, 2, 3, 4] }
     ]},
   { id: 'process', title: 'Sales Process Consistency', desc: 'Can success be replicated?',
     questions: [
-      { id: 'pr1', text: 'How standardized is your sales process?', options: ['Everyone different', 'Loose framework', 'Clear, mostly followed', 'Highly standardized'] },
-      { id: 'pr2', text: 'When top performers close deals, can others replicate it?', options: ['No - feels like magic', 'Hard to transfer', 'Usually can', 'Yes - documented'] },
-      { id: 'pr3', text: 'How clear are your qualification criteria?', options: ['Vague/none', 'Inconsistently applied', 'Clear, mostly used', 'Rigorously applied'] },
-      { id: 'pr4', text: 'Do you have documented plays for common scenarios?', options: ['No docs', 'Rarely referenced', 'Good docs, used', 'Comprehensive playbook'] }
+      { id: 'pr1', text: 'How standardized is your sales process?', options: ['Everyone different', 'Loose framework', 'Clear, mostly followed', 'Highly standardized'], scores: [1, 2, 3, 4] },
+      { id: 'pr2', text: 'When top performers close deals, can others replicate it?', options: ['No - feels like magic', 'Hard to transfer', 'Usually can', 'Yes - documented'], scores: [1, 2, 3, 4] },
+      { id: 'pr3', text: 'How clear are your qualification criteria?', options: ['Vague/none', 'Inconsistently applied', 'Clear, mostly used', 'Rigorously applied'], scores: [1, 2, 3, 4] },
+      { id: 'pr4', text: 'Do you have documented plays for common scenarios?', options: ['No docs', 'Rarely referenced', 'Good docs, used', 'Comprehensive playbook'], scores: [1, 2, 3, 4] }
     ]},
   { id: 'metrics', title: 'Metrics & Visibility', desc: "Can you diagnose what's happening?",
     questions: [
-      { id: 'me1', text: 'Do you have shared definitions of key metrics?', options: ['No - varies by person', 'Loosely defined', 'Clearly defined', 'Precisely defined'] },
-      { id: 'me2', text: 'How quickly can you identify where deals get stuck?', options: ["Can't - black box", 'Significant digging', 'Within days', 'Real-time visibility'] },
-      { id: 'me3', text: 'Can you track deal velocity and sales cycle by segment?', options: ['No reliable data', 'Rough estimates', 'Generally accurate', 'Precise tracking'] },
-      { id: 'me4', text: 'How useful are your sales reviews for improving outcomes?', options: ['Just reporting', 'Inconsistent', 'Usually productive', 'Always insightful'] }
+      { id: 'me1', text: 'Do you have shared definitions of key metrics?', options: ['No - varies by person', 'Loosely defined', 'Clearly defined', 'Precisely defined'], scores: [1, 2, 3, 4] },
+      { id: 'me2', text: 'How quickly can you identify where deals get stuck?', options: ["Can't - black box", 'Significant digging', 'Within days', 'Real-time visibility'], scores: [1, 2, 3, 4] },
+      { id: 'me3', text: 'Can you track deal velocity and sales cycle by segment?', options: ['No reliable data', 'Rough estimates', 'Generally accurate', 'Precise tracking'], scores: [1, 2, 3, 4] },
+      { id: 'me4', text: 'How useful are your sales reviews for improving outcomes?', options: ['Just reporting', 'Inconsistent', 'Usually productive', 'Always insightful'], scores: [1, 2, 3, 4] }
     ]},
   { id: 'leadership', title: 'Leadership Alignment', desc: 'Are priorities clear and consistent?',
     questions: [
-      { id: 'l1', text: 'How aligned is leadership on what "good" looks like?', options: ['Major disconnect', 'Loosely aligned', 'Mostly aligned', 'Completely aligned'] },
-      { id: 'l2', text: 'When priorities change, how clearly is it communicated?', options: ['Poorly/not at all', 'Creates confusion', 'Usually clear', 'Always clear'] },
-      { id: 'l3', text: 'How often do sales and other depts work from the same playbook?', options: ['Rarely - siloed', 'Spotty coordination', 'Usually aligned', 'Tight alignment'] },
-      { id: 'l4', text: 'How consistent is deal coaching across managers?', options: ['Wildly inconsistent', 'Some consistency', 'Generally consistent', 'Highly standardized'] }
+      { id: 'l1', text: 'How aligned is leadership on what "good" looks like?', options: ['Major disconnect', 'Loosely aligned', 'Mostly aligned', 'Completely aligned'], scores: [1, 2, 3, 4] },
+      { id: 'l2', text: 'When priorities change, how clearly is it communicated?', options: ['Poorly/not at all', 'Creates confusion', 'Usually clear', 'Always clear'], scores: [1, 2, 3, 4] },
+      { id: 'l3', text: 'How often do sales and other depts work from the same playbook?', options: ['Rarely - siloed', 'Spotty coordination', 'Usually aligned', 'Tight alignment'], scores: [1, 2, 3, 4] },
+      { id: 'l4', text: 'How consistent is deal coaching across managers?', options: ['Wildly inconsistent', 'Some consistency', 'Generally consistent', 'Highly standardized'], scores: [1, 2, 3, 4] }
     ]}
 ];
 
+// NEW SCENARIO-BASED QUESTIONS FOR INDIVIDUAL ASSESSMENT
 const individualSections = [
-  { id: 'discovery', title: 'Discovery & Qualification', desc: 'Do you uncover real pain?',
+  { id: 'discovery', title: 'Discovery & Qualification', desc: 'How well do you uncover real buyer needs?',
     questions: [
-      { id: 'd1', text: 'How often do you uncover the real business problem (not just the stated need)?', options: ['Rarely', 'Sometimes', 'Usually', 'Consistently'] },
-      { id: 'd2', text: 'Can you identify the economic buyer and their priorities early?', options: ['Struggle with this', 'Sometimes', 'Usually', 'Always within first calls'] },
-      { id: 'd3', text: "How often do prospects tell you things they haven't told competitors?", options: ['Rarely/never', 'Occasionally', 'Often', 'Regularly'] },
-      { id: 'd4', text: 'Do you qualify out bad-fit deals early?', options: ['Hold on too long', 'Sometimes', 'Usually', 'Ruthlessly qualify'] }
+      { 
+        id: 'd1', 
+        text: 'A prospect opens the call saying "We need a better CRM." What\'s your best first move?',
+        options: [
+          'Ask what features they\'re looking for in a new system',
+          'Ask what\'s happening that made them start looking now',
+          'Give a quick overview of your solution so they know what\'s possible',
+          'Ask about their current tech stack to understand the environment'
+        ],
+        scores: [2, 4, 1, 2]
+      },
+      { 
+        id: 'd2', 
+        text: 'You\'re 20 minutes into a discovery call and realize you\'re talking to someone without buying authority. What do you do?',
+        options: [
+          'Keep building the relationship - they can be your internal champion',
+          'Learn what you can and ask how decisions like this typically get made',
+          'Ask if they can introduce you to the decision-maker',
+          'Finish the call and send materials they can share internally'
+        ],
+        scores: [2, 4, 3, 1]
+      },
+      { 
+        id: 'd3', 
+        text: 'A prospect says "We\'re just researching right now, no timeline." What\'s the best response?',
+        options: [
+          'Offer to be a resource and check back in a quarter',
+          'Ask what would need to change for this to become a priority',
+          'Share how similar companies approached their evaluation process',
+          'Send relevant content and nurture the relationship'
+        ],
+        scores: [2, 4, 3, 1]
+      },
+      { 
+        id: 'd4', 
+        text: 'During discovery, you realize the prospect\'s real problem is different from what they initially described. What do you do?',
+        options: [
+          'Address what they asked for first, then expand the conversation',
+          'Share what you\'re hearing and confirm whether the real issue is actually X',
+          'Solve the stated problem - that\'s what they came for',
+          'Present both problems and let them decide which to prioritize'
+        ],
+        scores: [2, 4, 1, 3]
+      }
     ]},
-  { id: 'pipelinemgmt', title: 'Pipeline Management', desc: 'Do you run a clean, predictable book?',
+  { id: 'pipelinemgmt', title: 'Pipeline Management', desc: 'How effectively do you manage your deals?',
     questions: [
-      { id: 'pm1', text: 'How accurate is your personal forecast?', options: ['Often wrong', 'Sometimes off', 'Usually close', 'Consistently accurate'] },
-      { id: 'pm2', text: 'Do you have a clear next step for every deal?', options: ['Many stall', 'Some have next steps', 'Most do', 'Always, with dates'] },
-      { id: 'pm3', text: 'How often do you proactively clean dead deals from your pipeline?', options: ['Rarely', 'When forced', 'Monthly', 'Weekly'] },
-      { id: 'pm4', text: 'Can you articulate why each deal will close when you say it will?', options: ['Often guessing', 'Some deals', 'Most deals', 'Every deal'] }
+      { 
+        id: 'pm1', 
+        text: 'You have a deal that\'s been "closing next week" for three weeks straight. What\'s the best action?',
+        options: [
+          'Check in with new value - share a case study or relevant content',
+          'Directly ask what\'s preventing them from moving forward',
+          'Loop in your manager to add executive presence',
+          'Give them space - pushing too hard could hurt the deal'
+        ],
+        scores: [2, 4, 3, 1]
+      },
+      { 
+        id: 'pm2', 
+        text: 'Your pipeline shows 4x coverage but you\'re only hitting 60% of quota. What\'s most likely the issue?',
+        options: [
+          'You need to improve your close rate on existing deals',
+          'Your pipeline has deals that aren\'t actually going to close',
+          'You need more top-of-funnel activity to offset losses',
+          'Your deal sizes are too small - focus on larger opportunities'
+        ],
+        scores: [3, 4, 2, 1]
+      },
+      { 
+        id: 'pm3', 
+        text: 'It\'s mid-month and a "commit" deal just went dark - no response in a week. What do you do first?',
+        options: [
+          'Send a brief check-in and give them a few more days',
+          'Reach out to other contacts in the account',
+          'Have your manager send an executive-level email',
+          'Call and leave a voicemail expressing urgency'
+        ],
+        scores: [1, 4, 3, 2]
+      },
+      { 
+        id: 'pm4', 
+        text: 'You inherit a pipeline from a rep who left. What\'s your first priority?',
+        options: [
+          'Reach out to every prospect personally to rebuild the relationship',
+          'Audit each deal to understand what\'s real before taking action',
+          'Focus on the deals closest to close first',
+          'Ask your manager for context on the top opportunities'
+        ],
+        scores: [2, 4, 3, 2]
+      }
     ]},
-  { id: 'execution', title: 'Deal Execution', desc: 'Do you advance and close effectively?',
+  { id: 'execution', title: 'Deal Execution', desc: 'How well do you advance and close deals?',
     questions: [
-      { id: 'e1', text: 'How often do you multi-thread (build multiple relationships) in accounts?', options: ['Single-thread most', 'Sometimes', 'Usually', 'Always'] },
-      { id: 'e2', text: 'Can you create urgency without discounting?', options: ['Struggle with this', 'Sometimes', 'Usually', 'Consistently'] },
-      { id: 'e3', text: "How often do you lose deals you thought you'd win?", options: ['Frequently surprised', 'Sometimes', 'Rarely', 'Almost never'] },
-      { id: 'e4', text: "Do you control the process or follow the buyer's timeline?", options: ['Buyer controls', 'Mix', 'Usually lead', 'Always lead'] }
+      { 
+        id: 'e1', 
+        text: 'Your champion says "I love it, but I need to get my CFO on board." What\'s your best next step?',
+        options: [
+          'Arm your champion with ROI materials and talking points',
+          'Ask what matters to the CFO and offer to help with that conversation',
+          'Request a meeting with the CFO directly',
+          'Build the business case together with your champion'
+        ],
+        scores: [2, 4, 3, 3]
+      },
+      { 
+        id: 'e2', 
+        text: 'You\'re in a competitive deal and the prospect says "Your competitor is 30% cheaper." Best response?',
+        options: [
+          'Focus on total cost of ownership, not just license price',
+          'Ask what factors besides price will drive their final decision',
+          'Understand what\'s included in the competitor\'s quote for a fair comparison',
+          'Emphasize where your product delivers more value'
+        ],
+        scores: [3, 4, 3, 2]
+      },
+      { 
+        id: 'e3', 
+        text: 'A prospect reschedules your demo for the second time. What do you do?',
+        options: [
+          'Reschedule and confirm the day before to lock it in',
+          'Ask if the timing is wrong and whether there\'s a better way to move forward',
+          'Send a short video overview they can watch on their own time',
+          'Suggest a shorter meeting to make it easier to fit in'
+        ],
+        scores: [2, 4, 3, 2]
+      },
+      { 
+        id: 'e4', 
+        text: 'During contract negotiation, the prospect asks for a discount. What\'s the best approach?',
+        options: [
+          'Hold firm on price and reinforce the value',
+          'Offer flexibility in exchange for something like faster close or longer term',
+          'Check with your manager on what\'s possible',
+          'Offer a small concession to keep momentum going'
+        ],
+        scores: [3, 4, 2, 2]
+      }
     ]},
-  { id: 'messagingskill', title: 'Messaging & Positioning', desc: 'Can you articulate value?',
+  { id: 'messagingskill', title: 'Messaging & Positioning', desc: 'How effectively do you communicate value?',
     questions: [
-      { id: 'ms1', text: 'Can you explain your value prop in under 30 seconds without jargon?', options: ['Struggle', 'Sometimes clear', 'Usually crisp', 'Always nail it'] },
-      { id: 'ms2', text: 'How well do you tailor messaging to different personas?', options: ['Same pitch always', 'Some tailoring', 'Good adaptation', 'Fully customized'] },
-      { id: 'ms3', text: 'Can you articulate why you vs. competitors (without bashing them)?', options: ['Struggle', 'Sometimes', 'Usually', 'Confidently'] },
-      { id: 'ms4', text: 'Do prospects repeat your value back accurately?', options: ['Rarely', 'Sometimes', 'Often', 'Consistently'] }
+      { 
+        id: 'ms1', 
+        text: 'A prospect asks "What makes you different from [competitor]?" Best way to answer?',
+        options: [
+          'Acknowledge the competitor\'s strengths, then highlight where you win',
+          'Ask what\'s most important to them, then tailor your differentiation',
+          'Share where customers typically see the biggest differences',
+          'Focus on outcomes - results matter more than feature comparisons'
+        ],
+        scores: [2, 4, 3, 3]
+      },
+      { 
+        id: 'ms2', 
+        text: 'You have 60 seconds with a prospect who asks "What do you do?" What\'s the best approach?',
+        options: [
+          'Share your elevator pitch covering the key value props',
+          'Lead with a quick example of a relevant problem you solve',
+          'Ask what prompted them to ask - context helps you tailor',
+          'Give a concise overview of your product and ideal customer'
+        ],
+        scores: [2, 4, 3, 2]
+      },
+      { 
+        id: 'ms3', 
+        text: 'A technical buyer keeps asking detailed questions while the business buyer looks disengaged. What do you do?',
+        options: [
+          'Offer to send technical documentation and keep the meeting focused',
+          'Acknowledge the questions and suggest a follow-up, then re-engage the business buyer on outcomes',
+          'Answer efficiently - you need technical buy-in to move forward',
+          'Ask the business buyer directly if you\'re covering what matters to them'
+        ],
+        scores: [2, 4, 2, 3]
+      },
+      { 
+        id: 'ms4', 
+        text: 'The prospect says "Honestly, this sounds like what everyone else has told us." How do you respond?',
+        options: [
+          'Share a specific story that shows how you\'re different in practice',
+          'Ask what they\'ve heard and what hasn\'t resonated',
+          'Acknowledge that and offer a pilot to show the difference firsthand',
+          'Focus on what makes your approach or team unique'
+        ],
+        scores: [3, 4, 2, 2]
+      }
     ]},
-  { id: 'growth', title: 'Growth & Coachability', desc: 'Are you building your skills?',
+  { id: 'growth', title: 'Growth & Coachability', desc: 'How committed are you to improving?',
     questions: [
-      { id: 'g1', text: 'How often do you review your own calls to improve?', options: ['Never', 'Rarely', 'Sometimes', 'Regularly'] },
-      { id: 'g2', text: 'Do you seek feedback from managers and peers?', options: ['Avoid it', 'When required', 'Sometimes', 'Actively seek it'] },
-      { id: 'g3', text: 'How do you respond to coaching or criticism?', options: ['Defensive', 'Listen but rarely change', 'Usually apply it', 'Embrace and implement'] },
-      { id: 'g4', text: 'Are you investing in your own sales education?', options: ['Not really', 'Occasionally', 'Regularly', 'Constantly learning'] }
+      { 
+        id: 'g1', 
+        text: 'You lose a deal you thought you\'d win. What\'s the most valuable thing to do?',
+        options: [
+          'Review what happened and identify what you\'d do differently',
+          'Ask the prospect for honest feedback on why they went another direction',
+          'Discuss with your manager to get an outside perspective',
+          'Move on and apply the lessons to the next deal'
+        ],
+        scores: [3, 4, 3, 1]
+      },
+      { 
+        id: 'g2', 
+        text: 'Your manager gives you critical feedback on your discovery calls. Best response?',
+        options: [
+          'Take notes and apply it to your next call',
+          'Ask for a specific example and what they\'d suggest instead',
+          'Listen openly and try the new approach',
+          'Share your reasoning, then discuss how to adapt'
+        ],
+        scores: [3, 4, 2, 3]
+      },
+      { 
+        id: 'g3', 
+        text: 'A peer consistently outperforms you with a similar territory. What\'s the best approach?',
+        options: [
+          'Analyze the differences in your approach vs. theirs',
+          'Ask if you can shadow their calls or understand their process',
+          'Increase your activity to close the gap',
+          'Ask your manager what they\'re doing differently'
+        ],
+        scores: [3, 4, 1, 2]
+      },
+      { 
+        id: 'g4', 
+        text: 'You\'ve hit quota three months straight. What should you focus on?',
+        options: [
+          'Double down on what\'s working to build consistency',
+          'Experiment with new approaches to find what could take you to the next level',
+          'Use the momentum to build pipeline for future quarters',
+          'Help teammates by sharing what\'s working'
+        ],
+        scores: [3, 4, 3, 2]
+      }
     ]}
 ];
 
@@ -131,8 +332,23 @@ export default function RevfineryAssessment() {
 
   const calcResults = () => {
     const scores = sections.map(sec => {
-      const vals = sec.questions.map(q => answers[q.id] || 0);
-      const pct = Math.round((vals.reduce((a,b) => a+b, 0) / (sec.questions.length * 4)) * 100);
+      let totalScore = 0;
+      let maxScore = 0;
+      sec.questions.forEach(q => {
+        const answerIndex = answers[q.id];
+        if (answerIndex !== undefined) {
+          // For scenario questions with custom scores
+          if (q.scores) {
+            totalScore += q.scores[answerIndex - 1] || 0;
+            maxScore += 4; // Max possible is always 4
+          } else {
+            // For traditional questions (company track)
+            totalScore += answerIndex;
+            maxScore += 4;
+          }
+        }
+      });
+      const pct = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
       return { ...sec, score: pct };
     });
     const overall = Math.round(scores.reduce((a,b) => a + b.score, 0) / scores.length);
@@ -181,7 +397,6 @@ export default function RevfineryAssessment() {
 
   const getTier = (score) => score >= 75 ? 'high' : score >= 50 ? 'mid' : 'low';
 
-  // Build URL with score and user info to pass to application forms
   const getApplyUrl = (path, score, tier, blocker) => {
     const params = new URLSearchParams({
       score: score,
@@ -380,13 +595,13 @@ export default function RevfineryAssessment() {
             <h2 style={{fontSize: '24px', fontWeight: 'bold', marginBottom: '4px', color: '#0e2a2d'}}>{sec.title}</h2>
             <p style={{marginBottom: '24px', color: '#4c5f62'}}>{sec.desc}</p>
             {sec.questions.map((q) => (
-              <div key={q.id} style={{marginBottom: '24px'}}>
-                <p style={{fontWeight: '600', marginBottom: '12px', color: '#0e2a2d'}}>{q.text}</p>
-                <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+              <div key={q.id} style={{marginBottom: '32px'}}>
+                <p style={{fontWeight: '600', marginBottom: '16px', color: '#0e2a2d', fontSize: '16px', lineHeight: '1.5'}}>{q.text}</p>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
                   {q.options.map((opt, i) => (
-                    <label key={i} style={{display: 'flex', alignItems: 'center', padding: '16px', cursor: 'pointer', border: answers[q.id] === i+1 ? `3px solid ${track === 'company' ? '#0c6b73' : '#f25025'}` : '1px solid rgba(0,0,0,0.08)', backgroundColor: answers[q.id] === i+1 ? (track === 'company' ? '#eaf6f7' : '#fff7e8') : 'white', borderRadius: '12px', transition: 'all 0.2s'}}>
-                      <input type="radio" name={q.id} checked={answers[q.id] === i+1} onChange={() => setAnswers({...answers, [q.id]: i+1})} style={{marginRight: '12px', accentColor: track === 'company' ? '#0c6b73' : '#f25025'}}/>
-                      <span style={{color: '#4c5f62'}}>{opt}</span>
+                    <label key={i} style={{display: 'flex', alignItems: 'flex-start', padding: '16px', cursor: 'pointer', border: answers[q.id] === i+1 ? `3px solid ${track === 'company' ? '#0c6b73' : '#f25025'}` : '2px solid rgba(0,0,0,0.08)', backgroundColor: answers[q.id] === i+1 ? (track === 'company' ? '#eaf6f7' : '#fff7e8') : 'white', borderRadius: '12px', transition: 'all 0.2s'}}>
+                      <input type="radio" name={q.id} checked={answers[q.id] === i+1} onChange={() => setAnswers({...answers, [q.id]: i+1})} style={{marginRight: '12px', marginTop: '2px', accentColor: track === 'company' ? '#0c6b73' : '#f25025', minWidth: '18px', minHeight: '18px'}}/>
+                      <span style={{color: '#4c5f62', lineHeight: '1.4'}}>{opt}</span>
                     </label>
                   ))}
                 </div>
